@@ -223,21 +223,21 @@ st.markdown("---")
 with st.expander("📐 Mathematische Formulierung"):
     st.markdown(
         r"""
-**Das Modell** ist identisch zu `q-learning-demo`. Zusätzlich lernt der Agent ein eigenes Modell $\widehat{P}, \widehat{R}$: fuer jedes real besuchte $(s,a)$ wird der zuletzt beobachtete Ausgang $(r, s')$ gespeichert.
+**Das Modell** ist identisch zu `q-learning-demo`. Zusätzlich lernt der Agent ein eigenes Modell $\widehat{P}, \widehat{R}$: für jedes real besuchte $(s,a)$ wird der zuletzt beobachtete Ausgang $(r, s')$ gespeichert.
 
 **Echter Schritt** (wie Q-Learning): $Q(s,a) \leftarrow Q(s,a) + \alpha\big(r + \gamma \max_{a'} Q(s',a') - Q(s,a)\big)$, danach $\text{Modell}(s,a) \leftarrow (r, s')$.
 
-**Planungsschritt** ($n$-mal wiederholt): ein zufaelliges, schon real besuchtes $(\bar s, \bar a)$ auswaehlen, $(\bar r, \bar s') \leftarrow \text{Modell}(\bar s, \bar a)$, dasselbe Update: $Q(\bar s, \bar a) \leftarrow Q(\bar s, \bar a) + \alpha\big(\bar r + \gamma \max_{a'} Q(\bar s',a') - Q(\bar s, \bar a)\big)$.
+**Planungsschritt** ($n$-mal wiederholt): ein zufälliges, schon real besuchtes $(\bar s, \bar a)$ auswählen, $(\bar r, \bar s') \leftarrow \text{Modell}(\bar s, \bar a)$, dasselbe Update: $Q(\bar s, \bar a) \leftarrow Q(\bar s, \bar a) + \alpha\big(\bar r + \gamma \max_{a'} Q(\bar s',a') - Q(\bar s, \bar a)\big)$.
 
-**Reduktion:** bei $n=0$ wird kein Planungsschritt ausgefuehrt - das Modell wird geschrieben, aber nie gelesen. Dyna-Q ist dann byte-gleich zu Q-Learning (struktureller Regressionstest).
+**Reduktion:** bei $n=0$ wird kein Planungsschritt ausgeführt - das Modell wird geschrieben, aber nie gelesen. Dyna-Q ist dann byte-gleich zu Q-Learning (struktureller Regressionstest).
 
-Implementiert in `dq_grid.py` (Vehikel, inkl. `blocked` fuer das Blocking-Maze-Experiment), `dq_agent.py` (Dyna-Q: echter Schritt + Planung), `dq_reference.py` (Value Iteration, nur zur Gegenprobe), `dq_evaluation.py` (Analyse, zwei Experimente).
+Implementiert in `dq_grid.py` (Vehikel, inkl. `blocked` für das Blocking-Maze-Experiment), `dq_agent.py` (Dyna-Q: echter Schritt + Planung), `dq_reference.py` (Value Iteration, nur zur Gegenprobe), `dq_evaluation.py` (Analyse, zwei Experimente).
         """
     )
 
 st.markdown("---")
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
-    "Operations Research und Machine Learning. Interesse an einer maßgeschneiderten Lösung für "
-    "Ihr Unternehmen? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html)"
+    "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
+    "Mehr zur Reihe: [Reinforcement Learning: Bandit bis Actor-Critic](https://sebastianhanisch.net/konzepte-reinforcement-learning.html)."
 )
