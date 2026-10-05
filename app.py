@@ -153,10 +153,13 @@ mcols[2].metric(f"Dyna-Q: Umgebungsschritte", f"{a.env_steps:,}".replace(",", ".
 mcols[3].metric("Q-Learning: Umgebungsschritte", f"{baseline.env_steps:,}".replace(",", "."), delta=int(baseline.env_steps - a.env_steps), delta_color="off" if settings.n_planning == 0 else "normal")
 if settings.n_planning == 0:
     st.info("ℹ️ n=0: Dyna-Q liest sein Modell nie - dieser Lauf IST reines Q-Learning (siehe Formel unten für den strukturellen Beweis).")
-elif settings.slip == 0.0 and a.gap <= baseline.gap + 0.5:
-    st.success(f"✅ Bei derselben Episodenzahl erreicht Dyna-Q einen kleineren oder gleich guten Wert-Abstand ({de(a.gap,2)} gegen {de(baseline.gap,2)}) - die zusätzlichen Planungs-Updates ersetzen einen Teil der fehlenden echten Erfahrung.")
+elif a.gap <= baseline.gap + 0.5:
+    st.success(f"✅ Bei derselben Episodenzahl erreicht Dyna-Q einen kleineren oder gleich guten Wert-Abstand ({de(a.gap,2)} gegen {de(baseline.gap,2)}) - die zusätzlichen Planungs-Updates ersetzen einen Teil der fehlenden echten Erfahrung." + (" Vorsicht: bei Rutschen > 0 ist das gelernte Modell eine verzerrte Stichprobe - dieser Vorteil gilt nur für diesen Seed und diese Dauer (siehe Grenzen-Tabelle)." if settings.slip > 0.0 else ""))
 else:
-    st.warning(f"⚠️ Hier hilft Planung nicht (Abstand {de(a.gap,2)} gegen {de(baseline.gap,2)} ohne Planung) - bei Rutschen > 0 ist das gelernte Modell (nur der zuletzt beobachtete Ausgang) eine verzerrte Stichprobe der echten, stochastischen Übergänge (siehe Grenzen-Tabelle).")
+    st.warning(f"⚠️ Hier hilft Planung nicht (Abstand {de(a.gap,2)} gegen {de(baseline.gap,2)} ohne Planung) - " + (
+        "bei Rutschen > 0 ist das gelernte Modell (nur der zuletzt beobachtete Ausgang) eine verzerrte Stichprobe der echten, stochastischen Übergänge (siehe Grenzen-Tabelle)."
+        if settings.slip > 0.0 else
+        "ohne Rutschen liegt es nicht an einem verzerrten Modell, sondern an dieser einen kurzen Trainingsdauer/diesem Seed: bei sehr wenigen Episoden ist der Vorteil der Planung im Mittel nicht gesichert (siehe das Experiment zur Stichprobeneffizienz)."))
 g1, g2 = st.columns(2)
 with g1:
     st.markdown(f"##### Dyna-Q (n={settings.n_planning}): gelernte Policy")

@@ -31,6 +31,18 @@ def test_sample_efficiency_experiment():
     assert rows[0][20]["mean"] == pytest.approx(1.33, abs=2.0)
 
 
+def test_slip_reverses_the_planning_advantage():
+    # README (Modell/Grenzen): bei Rutschen 0,10 schadet Planung (n=10), bei 0,02 noch nicht - 15 Seeds, 50 Episoden
+    def means(slip):
+        exp = E.sample_efficiency_experiment(n_levels=(0, 10), checkpoints=(50,), base=E.Settings(slip=slip))
+        return {r["n_planning"]: r[50]["mean"] for r in exp["rows"]}
+    m10, m02 = means(0.10), means(0.02)
+    assert m10[10] == pytest.approx(12.73, abs=3.0) and m10[0] == pytest.approx(1.18, abs=1.0)
+    assert m10[10] > m10[0] + 5.0
+    assert m02[10] == pytest.approx(2.90, abs=1.5) and m02[0] == pytest.approx(3.38, abs=2.5)
+    assert m02[10] < m02[0] + 1.0                                                                    # bei 0,02 noch kein Nachteil
+
+
 def test_blocking_experiment():
     exp = E.blocking_experiment(base=E.Settings(slip=0.0, epsilon_start=0.1, epsilon_decay=0.0))
     rows = {r["n_planning"]: r for r in exp["rows"]}

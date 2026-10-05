@@ -12,9 +12,10 @@ GOAL_REWARD = 10.0
 
 ROWS_MIN, ROWS_MAX, DEFAULT_ROWS = 3, 6, 4
 COLS_MIN, COLS_MAX, DEFAULT_COLS = 4, 12, 8
-# DEFAULT_SLIP=0 weicht bewusst von value-iteration-demo/q-learning-demo (0,10) ab, wie schon bei sarsa-demo: gemessen (Vormessung), dass schon
-# leichtes Rutschen (0,02) die Stichprobeneffizienz von Dyna-Q INS GEGENTEIL verkehrt - das gelernte Modell merkt sich nur den zuletzt beobachteten
-# Ausgang je Zustand-Aktion-Paar, eine unter Rutschen verzerrte Stichprobe (siehe README/Grenzen-Tabelle, eigener Befund dieser Demo).
+# DEFAULT_SLIP=0 weicht bewusst von value-iteration-demo/q-learning-demo (0,10) ab, wie schon bei sarsa-demo: gemessen (15 Seeds, 50 Episoden, n=10),
+# dass bei Rutschen 0,10 die Stichprobeneffizienz von Dyna-Q INS GEGENTEIL verkehrt ist (Wert-Abstand 12,73 gegen 1,18 ohne Planung; bei 0,02 noch
+# kein Nachteil: 2,90 gegen 3,38) - das gelernte Modell merkt sich nur den zuletzt beobachteten Ausgang je Zustand-Aktion-Paar, eine unter Rutschen
+# verzerrte Stichprobe (siehe README/Grenzen-Tabelle, eigener Befund dieser Demo).
 SLIP_MIN, SLIP_MAX, SLIP_STEP, DEFAULT_SLIP = 0.0, 0.30, 0.02, 0.0
 GAMMA_MIN, GAMMA_MAX, GAMMA_STEP, DEFAULT_GAMMA = 0.80, 0.99, 0.01, 0.95
 
